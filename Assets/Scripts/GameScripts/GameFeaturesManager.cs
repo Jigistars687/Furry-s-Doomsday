@@ -23,6 +23,7 @@ public class GameFeaturesManager : MonoBehaviour
     private float deltaTime = 0.0f;
     private float _HBMaxSize;
     private bool _IsCursorShowed = false;
+    private bool canTakeDamage = true;
     private string _ShotGunReloadAnimText;
     private string _ShotGunShootAnimText;
     private string _ShotGunbuttstockPunchAnimText;
@@ -37,8 +38,8 @@ public class GameFeaturesManager : MonoBehaviour
         _PlayersCamera.fieldOfView = _FieldOfView;
         _HBMaxSize = _hBRectTransform.transform.localScale.x;
         _PL_Stats.HealthChanger += RefreshHealthBar;
- //       _PL_Stats.HealthChanger += IsDead;
- //       _PL_Stats.LoadReferences();
+        //       _PL_Stats.HealthChanger += IsDead;
+        //       _PL_Stats.LoadReferences();
     }
 
     void Start()
@@ -85,7 +86,7 @@ public class GameFeaturesManager : MonoBehaviour
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
         }
-        else if((Input.GetKeyDown(KeyCode.B) & _IsCursorShowed))
+        else if ((Input.GetKeyDown(KeyCode.B) & _IsCursorShowed))
         {
             _IsCursorShowed = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -110,15 +111,95 @@ public class GameFeaturesManager : MonoBehaviour
             _fpsText.color = Color.red;
         }
     }
+
     private void OnTriggerStay(Collider collision)
     {
         if (collision.gameObject.TryGetComponent<Enemy_Stats>(out var _Stats))
         {
-            _PL_Stats.TakeDamage(_Stats.DamagePerTick);
+            if (canTakeDamage)
+            {
+                _PL_Stats.TakeDamage(_Stats.DamagePerTick);
+                StartCoroutine(DamageCooldown());
+            }
         }
     }
+
+    private IEnumerator DamageCooldown()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(1f); // Пауза на 1 секунду
+        canTakeDamage = true;
+    }
+
+    private Coroutine _blinkCoroutine;
+
     public void RefreshHealthBar()
     {
-        _hBRectTransform.transform.localScale = new Vector3(_HBMaxSize * (_PL_Stats.Health / _PL_Stats.MaxHealth), _hBRectTransform.transform.localScale.y, 1);
+        float healthRatio = _PL_Stats.Health / _PL_Stats.MaxHealth;
+        _hBRectTransform.transform.localScale = new Vector3(_HBMaxSize * healthRatio, _hBRectTransform.transform.localScale.y, 1);
+        UnityEngine.UI.Image image = _hBRectTransform.GetComponent<UnityEngine.UI.Image>();
+
+        Color green = Color.green;
+        Color brightYellow = Color.yellow;
+        Color darkYellow = new Color(1f, 0.6f, 0f);
+        Color red = Color.red;
+
+        if (healthRatio > 0.25f)
+        {
+            if (_blinkCoroutine != null)
+            {
+                StopCoroutine(_blinkCoroutine);
+                _blinkCoroutine = null;
+            }
+
+            if (healthRatio > 0.75f)
+            {
+                // При здоровье от 75% до 100%: от ярко-жёлтого к зелёному
+                float t = (healthRatio - 0.75f) / 0.25f;
+                image.color = Color.Lerp(brightYellow, green, t);
+            }
+            else if (healthRatio > 0.5f)
+            {
+                // При здоровье от 50% до 75%: от тёмно-жёлтого к ярко-жёлтому
+                float t = (healthRatio - 0.5f) / 0.25f;
+                image.color = Color.Lerp(darkYellow, brightYellow, t);
+            }
+            else // healthRatio в диапазоне от 0.25 до 0.5
+            {
+                // При здоровье от 25% до 50%: от красного к тёмно-жёлтому
+                float t = (healthRatio - 0.25f) / 0.25f;
+                image.color = Color.Lerp(red, darkYellow, t);
+            }
+        }
+        else
+        {
+            if (_blinkCoroutine == null)
+            {
+                _blinkCoroutine = StartCoroutine(SmoothBlinkRedWhite());
+            }
+        }
+    }
+
+    private IEnumerator SmoothBlinkRedWhite()
+    {
+        UnityEngine.UI.Image image = _hBRectTransform.GetComponent<UnityEngine.UI.Image>();
+        float t = 0f;
+        float speed = 5.0f; // Коэффициент скорости смены цвета; можно настроить по вкусу
+
+        while (true)
+        {
+            while (t < 1f)
+            {
+                image.color = Color.Lerp(Color.red, Color.white, t);
+                t += Time.deltaTime * speed;
+                yield return null;
+            }
+            while (t > 0f)
+            {
+                image.color = Color.Lerp(Color.red, Color.white, t);
+                t -= Time.deltaTime * speed;
+                yield return null;
+            }
+        }
     }
 }

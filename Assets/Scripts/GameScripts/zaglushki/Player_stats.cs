@@ -40,5 +40,10 @@ public class Player_stats
             Health -= damage;
             HealthChanger?.Invoke();
         }
+        if (Health < 0)
+        {
+            Health = 0;
+            HealthChanger?.Invoke();
+        }
     }
 }
