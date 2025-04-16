@@ -52,6 +52,7 @@ public class GameFeaturesManager : MonoBehaviour
 
     void Update()
     {
+        Heal();
         CursorShowing();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -91,6 +92,14 @@ public class GameFeaturesManager : MonoBehaviour
             _IsCursorShowed = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
+        }
+    }
+    private void Heal()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            _PL_Stats.Heal(Vodka_stats.Heal);
+            StartCoroutine(DamageCooldown());
         }
     }
     private void ShowFps()

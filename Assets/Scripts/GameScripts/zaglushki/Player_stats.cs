@@ -46,4 +46,21 @@ public class Player_stats
             HealthChanger?.Invoke();
         }
     }
+    public void Heal(float heal)
+    {
+        if(Health + heal >= MaxHealth)
+        {
+            Health = MaxHealth;
+        }
+        if (Health >= MaxHealth)
+        {
+            Health = MaxHealth;
+            HealthChanger?.Invoke();
+        }
+        else
+        {
+            Health += heal;
+            HealthChanger?.Invoke();
+        }
+    }
 }
