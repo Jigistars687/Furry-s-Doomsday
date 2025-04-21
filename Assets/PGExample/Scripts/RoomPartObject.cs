@@ -1,41 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum DirectionType
+namespace RoomSystem
 {
-    North = 0,
-    East = 1,
-    South = 2,
-    West = 3,
-}
-
-[System.Serializable]
-public class EdgeSpawnPoint
-{
-    public DirectionType Direction;
-    public Transform Container;
-}
-
-public class RoomPartObject : MonoBehaviour
-{
-    public EdgeSpawnPoint[] SpawnPoints;
-
-    public void AssignWall(GameObject wallObject, DirectionType direction)
+    [System.Serializable]
+    public class EdgeSpawnPoint
     {
-        foreach (var spawnPoint in SpawnPoints)
+        public DirectionType Direction; // Используем общий enum из RoomSystem
+        public Transform Container;
+    }
+
+    public class RoomPartObject : MonoBehaviour
+    {
+        public EdgeSpawnPoint[] SpawnPoints;
+
+        // Привязывает переданный объект (дверь или стену) к соответствующей точке.
+        public void AssignWall(GameObject obj, DirectionType direction)
         {
-            if (spawnPoint.Direction == direction)
+            foreach (EdgeSpawnPoint spawnPoint in SpawnPoints)
             {
-                wallObject.transform.SetParent(spawnPoint.Container);
-
-                wallObject.transform.localPosition = Vector3.zero;
-                wallObject.transform.localEulerAngles = Vector3.zero;
-
-                Debug.Log($"{wallObject.name} {wallObject.transform.position}");
-
-                break;
+                if (spawnPoint.Direction == direction)
+                {
+                    obj.transform.SetParent(spawnPoint.Container);
+                    obj.transform.localPosition = Vector3.zero;
+                    obj.transform.localEulerAngles = Vector3.zero;
+                    Debug.Log($"{obj.name} assigned to {direction} at {spawnPoint.Container.position}");
+                    return;
+                }
             }
+
+            Debug.LogWarning($"Не найден SpawnPoint для направления {direction} на {gameObject.name}");
         }
     }
 }

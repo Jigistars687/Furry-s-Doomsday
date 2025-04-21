@@ -368,9 +368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ac5a722113a2544a43bbd408553da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomPartObject: {fileID: 2557720035876955782, guid: bbd36449bcb2dae4aa8f0b74219b9ab7, type: 3}
+  RoomPartObjectPrefab: {fileID: 2557720035876955782, guid: bbd36449bcb2dae4aa8f0b74219b9ab7, type: 3}
   WallPrefab: {fileID: 8429503943122700266, guid: d0df4263f24d1f3448bae441fec7e281, type: 3}
-  WallWithDoorPrefab: {fileID: 386776393429745708, guid: b1005acba336d2e45841c3f2b47bdac6, type: 3}
+  DoorPrefab: {fileID: 386776393429745708, guid: b1005acba336d2e45841c3f2b47bdac6, type: 3}
   SpawnPoints: {fileID: 2532017352201209194, guid: 7181e1c8cdca0234d8f783c8f54006c2, type: 3}
   PartPoints:
   - Point: {fileID: 379273744}
