@@ -11,8 +11,8 @@ public class GameFeaturesManager : MonoBehaviour
 {
     [SerializeField] private Text _fpsText;
     [SerializeField] private Camera _PlayersCamera;
-    [SerializeField] private Animator _ShotGunAnim;
-    [SerializeField] private Transform BulletsSpawn;
+//    [SerializeField] private Animator _ShotGunAnim;
+//    [SerializeField] private Transform BulletsSpawn;
     [SerializeField] private Transform _healthBar;
     [SerializeField] private RectTransform _hBRectTransform;
 
@@ -62,18 +62,18 @@ public class GameFeaturesManager : MonoBehaviour
             PlayerPrefs.SetInt(BooleanSettings.IsInGame, 0);
             SceneManager.LoadScene(Scenes.GameCommonSettings);
         }
-        if (Input.GetKeyDown(BindingKeysManager.Reload_Key_KEYCODE))
-        {
-            _ShotGunAnim.SetTrigger(_ShotGunReloadAnimText);
-        }
-        if (Input.GetKeyDown(BindingKeysManager.Attack_Key_KEYCODE))
-        {
-            _ShotGunAnim.SetTrigger(_ShotGunShootAnimText);
-        }
-        if (Input.GetKeyDown(BindingKeysManager.Buttstock_Blow_KEYCODE))
-        {
-            _ShotGunAnim.SetTrigger(_ShotGunbuttstockPunchAnimText);
-        }
+ //       if (Input.GetKeyDown(BindingKeysManager.Reload_Key_KEYCODE))
+//        {
+//            _ShotGunAnim.SetTrigger(_ShotGunReloadAnimText);
+ //       }
+ //       if (Input.GetKeyDown(BindingKeysManager.Attack_Key_KEYCODE))
+//        {
+//            _ShotGunAnim.SetTrigger(_ShotGunShootAnimText);
+ //       }
+ //       if (Input.GetKeyDown(BindingKeysManager.Buttstock_Blow_KEYCODE))
+ //       {
+ //           _ShotGunAnim.SetTrigger(_ShotGunbuttstockPunchAnimText);
+ //       }
         if (_FpsShowed == 1)
         {
             ShowFps();
@@ -136,7 +136,7 @@ public class GameFeaturesManager : MonoBehaviour
     private IEnumerator DamageCooldown()
     {
         canTakeDamage = false;
-        yield return new WaitForSeconds(1f); // Пауза на 1 секунду
+        yield return new WaitForSeconds(1f);
         canTakeDamage = true;
     }
 
@@ -163,19 +163,16 @@ public class GameFeaturesManager : MonoBehaviour
 
             if (healthRatio > 0.75f)
             {
-                // При здоровье от 75% до 100%: от ярко-жёлтого к зелёному
                 float t = (healthRatio - 0.75f) / 0.25f;
                 image.color = Color.Lerp(brightYellow, green, t);
             }
             else if (healthRatio > 0.5f)
             {
-                // При здоровье от 50% до 75%: от тёмно-жёлтого к ярко-жёлтому
                 float t = (healthRatio - 0.5f) / 0.25f;
                 image.color = Color.Lerp(darkYellow, brightYellow, t);
             }
-            else // healthRatio в диапазоне от 0.25 до 0.5
+            else
             {
-                // При здоровье от 25% до 50%: от красного к тёмно-жёлтому
                 float t = (healthRatio - 0.25f) / 0.25f;
                 image.color = Color.Lerp(red, darkYellow, t);
             }
@@ -193,7 +190,7 @@ public class GameFeaturesManager : MonoBehaviour
     {
         UnityEngine.UI.Image image = _hBRectTransform.GetComponent<UnityEngine.UI.Image>();
         float t = 0f;
-        float speed = 5.0f; // Коэффициент скорости смены цвета; можно настроить по вкусу
+        float speed = 5.0f;
 
         while (true)
         {

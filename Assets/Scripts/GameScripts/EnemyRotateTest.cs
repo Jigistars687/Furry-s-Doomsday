@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyRotateTest : MonoBehaviour
 {
     [SerializeField] private Transform _Player;
-    [SerializeField] private float _MaxDistance = 10f; // Максимальная дистанция, на которой объект будет следовать за игроком
+    [SerializeField] private float _MaxDistance = 100f; // Максимальная дистанция, на которой объект будет следовать за игроком
 
     private NavMeshAgent agent;
 
