@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RoomSystem
@@ -11,7 +12,7 @@ namespace RoomSystem
         West = 3,
     }
 
-    [System.Serializable]
+    [Serializable]
     public class RoomPartPoint
     {
         public Transform Point;
@@ -22,17 +23,17 @@ namespace RoomSystem
     {
         public GameObject RoomContainer;
         public List<RoomPartObject> RoomParts;
-        // Направление двери этой комнаты определяет, куда спавнится следующая комната.
         public DirectionType DoorDirection;
+        public GameObject TriggerObject;
     }
 
     public class RoomGenerator : MonoBehaviour
     {
         private DirectionType nextSpawnDirection = DirectionType.North;
         private DirectionType currentSpawnDirection = DirectionType.North;
-        private int roomCounter = 0;
-        private List<Room> rooms; // Declare the rooms list
-        private const float RoomSpacing = 30f; // Declare RoomSpacing constant
+        private int roomCounter;
+        private List<Room> rooms;
+        private const float RoomSpacing = 30f;
 
         [Header("Настройки и префабы")]
         [Tooltip("Префаб части комнаты")]
@@ -41,189 +42,180 @@ namespace RoomSystem
         public GameObject WallPrefab;
         [Tooltip("Префаб двери (выход)")]
         public GameObject DoorPrefab;
-        [Tooltip("Начальная точка спавна первой комнаты")]
+        [Tooltip("Префаб триггера для спавна следующей комнаты")]
+        public GameObject SpawnRoomTriggerPrefab;
+        [Tooltip("Начальная точка спавна комнаты")]
         public Transform SpawnPoints;
-        [Tooltip("Blueprint‑точки для установки стен/дверей относительно центра комнаты")]
+        [Tooltip("Blueprint-точки для установки стен/дверей относительно центра комнаты")]
         public RoomPartPoint[] PartPoints;
 
         private const int RoomsBeforeTurn = 3;
-        private int currentDirectionRoomCount = 0;
+        private int currentDirectionRoomCount;
 
         private void Awake()
         {
-            rooms = new List<Room>(); // Initialize rooms
+            rooms = new List<Room>();
+            roomCounter = 0;
+            currentDirectionRoomCount = 0;
         }
 
-        private void Update()
+        private void Start()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                // Increment the counter for rooms spawned in the current direction
-                currentDirectionRoomCount++;
-
-                // Determine if a turn is needed
-                if (currentDirectionRoomCount >= RoomsBeforeTurn)
-                {
-                    nextSpawnDirection = GetTurnDirection(currentSpawnDirection);
-                    currentDirectionRoomCount = 0; // Reset counter after the turn
-                }
-                else
-                {
-                    nextSpawnDirection = currentSpawnDirection; // Continue in the same direction
-                }
-
-                Debug.Log($"Next direction: {nextSpawnDirection}, Current direction: {currentSpawnDirection}");
-
-                // Spawn the room
-                SpawnRoom();
-            }
+            // Сразу спавним две комнаты:
+            // 1) первая без триггера
+            SpawnRoom(initial: true);
+            // 2) вторая с триггером для спавна третьей
+            SpawnRoom();
         }
 
-        private DirectionType GetTurnDirection(DirectionType previousDirection)
-        {
-            // Ensure the new direction is perpendicular, not forward or backward
-            if (previousDirection == DirectionType.North || previousDirection == DirectionType.South)
-            {
-                return (Random.Range(0, 2) == 0) ? DirectionType.East : DirectionType.West;
-            }
-            else // If previousDirection == East or West
-            {
-                return (Random.Range(0, 2) == 0) ? DirectionType.North : DirectionType.South;
-            }
-        }
-
-        private void SpawnRoom()
+        private void SpawnRoom(bool initial = false)
         {
             roomCounter++;
 
-            // Compute the position and forced entrance direction
             Vector3 spawnPos = SpawnPoints.position;
             DirectionType? forcedEntranceDir = null;
 
             if (rooms.Count > 0)
             {
                 Room previousRoom = rooms[rooms.Count - 1];
-                spawnPos = previousRoom.RoomContainer.transform.position
-                           - GetDirectionVector(currentSpawnDirection) * RoomSpacing;
-
+                spawnPos = previousRoom.RoomContainer.transform.position - GetDirectionVector(currentSpawnDirection) * RoomSpacing;
                 forcedEntranceDir = GetOppositeDirection(currentSpawnDirection);
             }
 
-            // Create the room
-            GameObject roomContainer = new GameObject("RoomContainer");
+            GameObject roomContainer = new GameObject($"Room_{roomCounter}");
             roomContainer.transform.position = spawnPos;
 
-            Room newRoom = new Room
+            var newRoom = new Room
             {
                 RoomContainer = roomContainer,
                 RoomParts = new List<RoomPartObject>(),
-                DoorDirection = currentSpawnDirection
+                DoorDirection = currentSpawnDirection,
+                TriggerObject = null
             };
 
-            List<RoomPartObject> doorObjects = new List<RoomPartObject>(); // Track placed doors
+            var doorParts = new List<RoomPartObject>();
 
-            // Generate room parts and assign walls/doors
-            foreach (RoomPartPoint partPoint in PartPoints)
+            foreach (var partPoint in PartPoints)
             {
                 if (partPoint.Point == null) continue;
-
                 Vector3 partPos = spawnPos + partPoint.Point.localPosition;
-                RoomPartObject roomPart = Instantiate(RoomPartObjectPrefab, partPos, Quaternion.identity, roomContainer.transform);
+                var roomPart = Instantiate(RoomPartObjectPrefab, partPos, Quaternion.identity, roomContainer.transform);
                 newRoom.RoomParts.Add(roomPart);
 
-                foreach (DirectionType outDir in partPoint.OutsideDirections)
+                foreach (var outDir in partPoint.OutsideDirections)
                 {
-                    if (forcedEntranceDir.HasValue && outDir == forcedEntranceDir.Value) continue;
+                    if (forcedEntranceDir.HasValue && outDir == forcedEntranceDir.Value)
+                        continue;
 
                     if (outDir == nextSpawnDirection)
                     {
-                        // Place a door in the direction of the next room
-                        GameObject doorObj = Instantiate(DoorPrefab);
+                        var doorObj = Instantiate(DoorPrefab);
                         roomPart.AssignWall(doorObj, outDir);
-                        doorObjects.Add(roomPart); // Track the door
+                        doorParts.Add(roomPart);
                     }
                     else
                     {
-                        // Place walls for other directions
-                        GameObject wallObj = Instantiate(WallPrefab);
+                        var wallObj = Instantiate(WallPrefab);
                         roomPart.AssignWall(wallObj, outDir);
                     }
                 }
             }
-
-            // Randomly replace one door with a wall if any doors exist
-            if (doorObjects.Count > 0)
+            if (doorParts.Count > 0)
             {
-                int randomIndex = Random.Range(0, doorObjects.Count);
-                RoomPartObject selectedDoorPart = doorObjects[randomIndex];
-
-                // Replace door with a wall
-                GameObject replacementWall = Instantiate(WallPrefab);
-                selectedDoorPart.AssignWall(replacementWall, nextSpawnDirection);
+                int idx = UnityEngine.Random.Range(0, doorParts.Count);
+                var sel = doorParts[idx];
+                var replWall = Instantiate(WallPrefab);
+                sel.AssignWall(replWall, nextSpawnDirection);
             }
 
             rooms.Add(newRoom);
 
-            // Precompute the next spawn direction for the future room
+            if (!initial && SpawnRoomTriggerPrefab != null)
+            {
+                var triggerObj = Instantiate(SpawnRoomTriggerPrefab, roomContainer.transform);
+                triggerObj.transform.localPosition = Vector3.zero;
+                var triggerComp = triggerObj.GetComponent<SpawnTrigger>();
+                if (triggerComp != null)
+                {
+                    triggerComp.OnPlayerEnter += () =>
+                    {
+                        currentDirectionRoomCount++;
+                        if (currentDirectionRoomCount >= RoomsBeforeTurn)
+                        {
+                            nextSpawnDirection = GetTurnDirection(currentSpawnDirection);
+                            currentDirectionRoomCount = 0;
+                        }
+                        else
+                        {
+                            nextSpawnDirection = currentSpawnDirection;
+                        }
+                        if (rooms.Count > 3)
+                            DeleteRoom();
+                        SpawnRoom();
+                    };
+                }
+                newRoom.TriggerObject = triggerObj;
+            }
+
             currentSpawnDirection = nextSpawnDirection;
             nextSpawnDirection = (roomCounter % RoomsBeforeTurn == 0)
                 ? GetTurnDirection(currentSpawnDirection)
                 : currentSpawnDirection;
 
-            // Manage visible rooms
             UpdateRooms();
         }
 
-
-
-
-
-
-
         private void UpdateRooms()
         {
-            // Если комнат больше 3 – удаляем самую старую, чтобы не захламлять сцену.
             if (rooms.Count > 4)
-            {
                 DeleteRoom();
-            }
         }
 
         private void DeleteRoom()
         {
-            Room roomToDelete = rooms[0];
-            foreach (RoomPartObject part in roomToDelete.RoomParts)
-            {
+            var old = rooms[0];
+            foreach (var part in old.RoomParts)
                 Destroy(part.gameObject);
-            }
-            Destroy(roomToDelete.RoomContainer);
+            if (old.TriggerObject != null)
+                Destroy(old.TriggerObject);
+            Destroy(old.RoomContainer);
             rooms.RemoveAt(0);
         }
 
-        // Возвращает единичный вектор по направлению (смещение комнаты).
-        private Vector3 GetDirectionVector(DirectionType direction)
+        private Vector3 GetDirectionVector(DirectionType dir)
         {
-            switch (direction)
+            switch (dir)
             {
-                case DirectionType.North: return new Vector3(0, 0, 1);
-                case DirectionType.South: return new Vector3(0, 0, -1);
-                case DirectionType.East: return new Vector3(1, 0, 0);
-                case DirectionType.West: return new Vector3(-1, 0, 0);
+                case DirectionType.North: return Vector3.forward;
+                case DirectionType.South: return Vector3.back;
+                case DirectionType.East: return Vector3.right;
+                case DirectionType.West: return Vector3.left;
                 default: return Vector3.zero;
             }
         }
 
-        // Возвращает противоположное направление.
-        private DirectionType GetOppositeDirection(DirectionType direction)
+        private DirectionType GetOppositeDirection(DirectionType dir)
         {
-            switch (direction)
+            switch (dir)
             {
                 case DirectionType.North: return DirectionType.South;
                 case DirectionType.South: return DirectionType.North;
                 case DirectionType.East: return DirectionType.West;
                 case DirectionType.West: return DirectionType.East;
-                default: return direction;
+                default: return dir;
             }
+        }
+
+        private DirectionType GetTurnDirection(DirectionType prevDir)
+        {
+            if (prevDir == DirectionType.North || prevDir == DirectionType.South)
+                return (UnityEngine.Random.Range(0, 2) == 0)
+                    ? DirectionType.East
+                    : DirectionType.West;
+            else
+                return (UnityEngine.Random.Range(0, 2) == 0)
+                    ? DirectionType.North
+                    : DirectionType.South;
         }
     }
 }
