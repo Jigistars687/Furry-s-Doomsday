@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 60
-  _damagePerTick: 0.2
+  _damagePerTick: 10
 --- !u!114 &1116199470001542721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Player: {fileID: 0}
-  _MaxDistance: 10
+  _MaxDistance: 100
 --- !u!195 &7787137756597977383
 NavMeshAgent:
   m_ObjectHideFlags: 0
