@@ -1,66 +1,56 @@
+// Файл: PlayerController.cs
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class playercontrollerBETA : MonoBehaviour
 {
-    public float moveSpeed = 5f;  // Скорость движения
-    public float jumpForce = 5f;  // Сила прыжка
-    public float mouseSensitivity = 2f;  // Чувствительность мыши
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed = 5f;
+    [Range(1, 10)] public float turnSpeed = 1f;
+
+    [Header("Rotation Smoothing")]
+    [Tooltip("Чем выше, тем плавнее (медленнее) поворот")]
+    [SerializeField] private float rotateSmoothness = 10f;
 
     private Rigidbody rb;
-    public Camera playerCamera;
-    private float rotationX = 0f;
+    private Quaternion targetRotation;    // цель для плавного поворота
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        playerCamera = Camera.main;
-
-        if (playerCamera == null)
-        {
-            Debug.LogError("Main camera not found. Please ensure there is a camera with the 'MainCamera' tag in the scene.");
-            return;
-        }
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        targetRotation = transform.rotation;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (playerCamera == null) return;
-
-        HandleMouseLook();
         HandleMovement();
+        HandleRotation();
     }
 
-    void HandleMouseLook()
+    private void HandleMovement()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        Vector3 dir = Vector3.zero;
+        if (Input.GetKey(BindingKeysManager.Forward_Key_KEYCODE)) dir += transform.forward;
+        if (Input.GetKey(BindingKeysManager.Backward_Key_KEYCODE)) dir -= transform.forward;
+        if (Input.GetKey(BindingKeysManager.GoLeft_Key_KEYCODE)) dir -= transform.right;
+        if (Input.GetKey(BindingKeysManager.GoRight_Key_KEYCODE)) dir += transform.right;
 
-        rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
-
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+        Vector3 vel = dir.normalized * moveSpeed;
+        vel.y = rb.velocity.y;
+        rb.velocity = vel;
     }
 
-    void HandleMovement()
+    private void HandleRotation()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
+        // получаем желаемый поворот на основе мыши
+        float mx = Input.GetAxis("Mouse X") * turnSpeed;
+        targetRotation *= Quaternion.Euler(0f, mx, 0f);  // :contentReference[oaicite:3]{index=3}
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        Vector3 velocity = move * moveSpeed;
-
-        velocity.y = rb.velocity.y;  // Сохраняем вертикальную скорость для прыжка
-
-        rb.velocity = velocity;
-
-        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        // плавно интерполируем текущий кватернион к целевому
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            targetRotation,
+            Time.deltaTime * rotateSmoothness  // :contentReference[oaicite:4]{index=4}
+        );
     }
 }

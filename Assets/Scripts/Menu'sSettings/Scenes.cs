@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Scenes : MonoBehaviour
 {
-    public static string NewGame = "GameScene";
+    public static string NewGame = "Example";
     public static string ResumeGame = "GameScene";
     public static string MenuCommonSettings = "MenuCommonCategorySettingsScene";
     public static string MenuControlsSettings = "MenuControlsCategorySettingsScene";

@@ -16,7 +16,7 @@ public class GameFeaturesManager : MonoBehaviour
     [SerializeField] private Transform _healthBar;
     [SerializeField] private RectTransform _hBRectTransform;
 
-    private PlayerController _player;
+    private playercontrollerBETA _player;
     private Player_stats _PL_Stats;
     private int _FpsShowed;
     private int _FieldOfView;
@@ -44,7 +44,7 @@ public class GameFeaturesManager : MonoBehaviour
 
     void Start()
     {
-        _player = GetComponent<PlayerController>();
+        _player = GetComponent<playercontrollerBETA>();
         _ShotGunReloadAnimText = "IsReload";
         _ShotGunShootAnimText = "Shoot";
         _ShotGunbuttstockPunchAnimText = "ButtstockPunch";
