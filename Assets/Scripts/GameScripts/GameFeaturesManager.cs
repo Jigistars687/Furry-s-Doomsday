@@ -24,9 +24,9 @@ public class GameFeaturesManager : MonoBehaviour
     private float _HBMaxSize;
     private bool _IsCursorShowed = false;
     private bool canTakeDamage = true;
-    private string _ShotGunReloadAnimText;
-    private string _ShotGunShootAnimText;
-    private string _ShotGunbuttstockPunchAnimText;
+    //private string _ShotGunReloadAnimText;
+    //private string _ShotGunShootAnimText;
+    //private string _ShotGunbuttstockPunchAnimText;
 
 
     void Awake()
@@ -45,9 +45,9 @@ public class GameFeaturesManager : MonoBehaviour
     void Start()
     {
         _player = GetComponent<playercontrollerBETA>();
-        _ShotGunReloadAnimText = "IsReload";
-        _ShotGunShootAnimText = "Shoot";
-        _ShotGunbuttstockPunchAnimText = "ButtstockPunch";
+        //_ShotGunReloadAnimText = "IsReload";
+        //_ShotGunShootAnimText = "Shoot";
+        //_ShotGunbuttstockPunchAnimText = "ButtstockPunch";
     }
 
     void Update()

@@ -4,68 +4,41 @@ using System.Collections.Generic;
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Точки патруля в сцене")]
-    public Transform[] waypoints;
+    [Header("Настройки")]
+    public Transform player;
+    public float moveSpeed = 5f;
+    public float viewDistance = 10f;
+    public float viewAngle = 45f;
 
-    [Header("Конфигурация врага")]
-    public EnemyConfig config;
-
-    [HideInInspector] public NavMeshAgent agent;
-
-    [SerializeField] private Transform player;
-    public Transform Player => player;
-
-    public Vector3 lastKnownPlayerPos;
-
-    private IEnemyState currentState;
-    private Dictionary<System.Type, IEnemyState> states;
-
-    void Awake()
-    {
-        agent = GetComponent<NavMeshAgent>();
-
-        states = new Dictionary<System.Type, IEnemyState>()
-        {
-            { typeof(PatrolState), new PatrolState(this) },
-            { typeof(ChaseState),  new ChaseState(this) },
-            { typeof(SearchState), new SearchState(this) },
-        };
-    }
-
-    void Start()
-    {
-        ApplyConfig();
-        SwitchState<PatrolState>();
-    }
+    private Vector3 lastKnownPlayerPos;
+    private bool canSeePlayer;
 
     void Update()
     {
-        currentState?.Tick();
-    }
+        canSeePlayer = CheckPlayerInSight();
 
-    public void SwitchState<T>() where T : IEnemyState
-    {
-        currentState?.Exit();
-        currentState = states[typeof(T)];
-        currentState.Enter();
-    }
-
-    private void ApplyConfig()
-    {
-        agent.speed = config.moveSpeed;
-        agent.stoppingDistance = config.stoppingDistance;
-    }
-
-    public bool CanSeePlayer()
-    {
-        Vector3 dirToPlayer = (Player.position - transform.position).normalized;
-        float angle = Vector3.Angle(transform.forward, dirToPlayer);
-
-        if (angle < config.viewAngle / 2f)
+        if (canSeePlayer)
         {
-            if (Physics.Raycast(transform.position + Vector3.up, dirToPlayer, out RaycastHit hit, config.viewDistance, config.obstacleMask))
+            lastKnownPlayerPos = player.position;
+            MoveTowards(lastKnownPlayerPos);
+        }
+        else if (lastKnownPlayerPos != Vector3.zero)
+        {
+            MoveTowards(lastKnownPlayerPos);
+        }
+    }
+
+    private bool CheckPlayerInSight()
+    {
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+        if (distanceToPlayer <= viewDistance && angleToPlayer <= viewAngle / 2f)
+        {
+            if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer, out RaycastHit hit, viewDistance))
             {
-                if (hit.transform == Player)
+                if (hit.collider.CompareTag("Player"))
                 {
                     return true;
                 }
@@ -73,5 +46,15 @@ public class EnemyAI : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void MoveTowards(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        transform.position += direction * moveSpeed * Time.deltaTime;
+
+        // Поворот в сторону цели
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * moveSpeed);
     }
 }
