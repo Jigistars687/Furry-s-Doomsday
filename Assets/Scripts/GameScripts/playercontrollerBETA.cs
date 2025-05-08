@@ -13,7 +13,8 @@ public class playercontrollerBETA : MonoBehaviour
     [SerializeField] private float rotateSmoothness = 10f;
 
     private Rigidbody rb;
-    private Quaternion targetRotation;    // цель для плавного поворота
+    private Quaternion targetRotation;
+    private float _finalTurnSpeed;
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class playercontrollerBETA : MonoBehaviour
     void FixedUpdate()
     {
         HandleMovement();
-        HandleRotation();
+        RotateAxisX();
     }
 
     private void HandleMovement()
@@ -43,7 +44,7 @@ public class playercontrollerBETA : MonoBehaviour
     private void HandleRotation()
     {
         // получаем желаемый поворот на основе мыши
-        float mx = Input.GetAxis("Mouse X") * turnSpeed;
+        float mx = Input.GetAxis("Mouse X") * _finalTurnSpeed;
         targetRotation *= Quaternion.Euler(0f, mx, 0f);  // :contentReference[oaicite:3]{index=3}
 
         // плавно интерполируем текущий кватернион к целевому
@@ -52,5 +53,19 @@ public class playercontrollerBETA : MonoBehaviour
             targetRotation,
             Time.deltaTime * rotateSmoothness  // :contentReference[oaicite:4]{index=4}
         );
+    }    private void InversionRotateAxisX()
+    {
+        _finalTurnSpeed = -turnSpeed;
+        HandleRotation();
+    }
+    private void NotInversionRotateAxisX()
+    {
+        _finalTurnSpeed = turnSpeed;
+        HandleRotation();
+    }
+    private void RotateAxisX()
+    {
+        if (PlayerPrefs.GetInt(BooleanSettings.IsInversionX) == 1) InversionRotateAxisX();
+        else NotInversionRotateAxisX();
     }
 }

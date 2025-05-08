@@ -217,7 +217,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 817895692}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Buttons_manager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
@@ -1667,7 +1667,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 817895692}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Buttons_manager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
@@ -2410,6 +2410,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ButtonClick: {fileID: 215345914}
   _ToggleClick: {fileID: 764649374}
+  _ToggleClickClip: {fileID: 8300000, guid: a49f87a30b6040347a07524220bacbb1, type: 3}
+  _ButtonClickClip: {fileID: 8300000, guid: 31ba9a51e64c49948926f80cb1cf7091, type: 3}
 --- !u!4 &817895693
 Transform:
   m_ObjectHideFlags: 0
@@ -2639,7 +2641,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817895692}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Buttons_manager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
@@ -4196,7 +4198,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 817895692}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Buttons_manager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
@@ -4967,7 +4969,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 817895692}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Buttons_manager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1

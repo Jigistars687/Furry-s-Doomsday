@@ -2691,7 +2691,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1652239033}
+      - m_Target: {fileID: 1652239034}
         m_TargetAssemblyTypeName: ControlCategories, Assembly-CSharp
         m_MethodName: IsInversionXToggle
         m_Mode: 1
@@ -5257,6 +5257,7 @@ GameObject:
   - component: {fileID: 1652239031}
   - component: {fileID: 1652239032}
   - component: {fileID: 1652239033}
+  - component: {fileID: 1652239034}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5339,6 +5340,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f490100f6cd3714dae9bb906cd1ced9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1652239034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652239027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d1a16278534064d85b41ea02f8859d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InversionXToggle: {fileID: 768053926}
@@ -6105,6 +6118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ButtonClick: {fileID: 542775766}
   _ToggleClick: {fileID: 239093838}
+  _ToggleClickClip: {fileID: 0}
+  _ButtonClickClip: {fileID: 0}
 --- !u!4 &2079122624
 Transform:
   m_ObjectHideFlags: 0
