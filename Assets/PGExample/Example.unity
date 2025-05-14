@@ -121,7 +121,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 143a9e4bf37ec344493dda0ceeb247af, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &20364368
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +827,7 @@ PrefabInstance:
       objectReference: {fileID: 325770764}
     - target: {fileID: 1502532695810467651, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Constraints
-      value: 4
+      value: 116
       objectReference: {fileID: 0}
     - target: {fileID: 1502532695810467651, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_IsKinematic
@@ -910,12 +910,16 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8515176711634582180, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: playerTarget
+      value: 
+      objectReference: {fileID: 325770764}
+    - target: {fileID: 8515176711634582180, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: _obstacleMask.m_Bits
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8515176711634582180, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: _ObstacleAvoidanceRadius
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_IsTrigger
@@ -943,7 +947,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!64 &1272839413
 MeshCollider:
@@ -965,7 +969,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 5
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1272839414
 MeshRenderer:
