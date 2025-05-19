@@ -38,24 +38,16 @@ namespace RoomSystem
         private const float RoomSpacing = 30f;
 
         [Header("Настройки и префабы")]
-        [Tooltip("Префаб части комнаты")]
         public RoomPartObject RoomPartObjectPrefab;
-        [Tooltip("Префаб стены")]
         public GameObject WallPrefab;
-        [Tooltip("Префаб двери (выход)")]
         public GameObject DoorPrefab;
-        [Tooltip("Префаб триггера для спавна следующей комнаты")]
         public GameObject SpawnRoomTriggerPrefab;
-        [Tooltip("Начальная точка спавна комнаты")]
         public Transform SpawnPoints;
-        [Tooltip("Blueprint-точки для установки стен/дверей относительно центра комнаты")]
         public RoomPartPoint[] PartPoints;
 
         [Header("NavMesh")]
-        [Tooltip("Ссылка на главный NavMeshSurface сцены")]
+        [Tooltip("NavMeshSurface, который будем перестраивать после каждого спавна")]
         public NavMeshSurface navMeshSurface;
-        [Tooltip("Радиус локального запекания после спавна")]
-        public float bakeRadius = 50f;
 
         private const int RoomsBeforeTurn = 3;
         private int currentDirectionRoomCount;
@@ -68,39 +60,35 @@ namespace RoomSystem
             currentDirectionRoomCount = 0;
         }
 
-        void Start()
+        private void Start()
         {
-            // если не задано в инспекторе — найдём первый на сцене
             if (navMeshSurface == null)
             {
                 navMeshSurface = FindObjectOfType<NavMeshSurface>();
                 if (navMeshSurface == null)
-                    Debug.LogError("RoomGenerator: не найден ни один NavMeshSurface на сцене!");
+                    Debug.LogError("RoomGenerator: не найден NavMeshSurface на сцене!");
             }
 
-            // Теперь можно смело вызывать первый SpawnRoom
-            SpawnRoom(true);
+            SpawnRoom(initial: true);
             SpawnRoom();
         }
-
 
         private void SpawnRoom(bool initial = false)
         {
             roomCounter++;
 
-            // --- Логика расположения и генерации комнаты ---
+            // ------ Ваша логика спавна комнаты ------
             Vector3 spawnPos = SpawnPoints.position;
             DirectionType? forcedEntranceDir = null;
 
             if (rooms.Count > 0)
             {
-                var prevRoom = rooms[rooms.Count - 1];
-                spawnPos = prevRoom.RoomContainer.transform.position
-                         - GetDirectionVector(currentSpawnDirection) * RoomSpacing;
+                var prev = rooms[rooms.Count - 1];
+                spawnPos = prev.RoomContainer.transform.position
+                           - GetDirectionVector(currentSpawnDirection) * RoomSpacing;
                 forcedEntranceDir = GetOppositeDirection(currentSpawnDirection);
             }
 
-            // Создаём пустой контейнер для новой комнаты
             var roomContainer = new GameObject($"Room_{roomCounter}");
             roomContainer.transform.position = spawnPos;
 
@@ -114,7 +102,6 @@ namespace RoomSystem
 
             var doorParts = new List<RoomPartObject>();
 
-            // Инстанциируем части комнаты и добавляем двери/стены
             foreach (var partPoint in PartPoints)
             {
                 if (partPoint.Point == null) continue;
@@ -141,7 +128,6 @@ namespace RoomSystem
                 }
             }
 
-            // Если есть несколько вариантов выхода, оставляем только один
             if (doorParts.Count > 0)
             {
                 int idx = UnityEngine.Random.Range(0, doorParts.Count);
@@ -152,7 +138,6 @@ namespace RoomSystem
 
             rooms.Add(newRoom);
 
-            // Спавн триггера для следующей комнаты (если не initial)
             if (!initial && SpawnRoomTriggerPrefab != null)
             {
                 var triggerObj = Instantiate(SpawnRoomTriggerPrefab, roomContainer.transform);
@@ -180,16 +165,17 @@ namespace RoomSystem
                 newRoom.TriggerObject = triggerObj;
             }
 
-            // Обновляем направление и удаляем старые комнаты по необходимости
             currentSpawnDirection = nextSpawnDirection;
             nextSpawnDirection = (roomCounter % RoomsBeforeTurn == 0)
                 ? GetTurnDirection(currentSpawnDirection)
                 : currentSpawnDirection;
-            UpdateRooms();
-            // --- Конец логики спавна ---
 
-            // Локальное запекание NavMesh вокруг центра новой комнаты
-            BakeLocalNavMesh(spawnPos);
+            UpdateRooms();
+            // ------ Конец логики спавна ------
+
+            // Перезапекаем локальный NavMesh между двух последних комнат, область 150×150×150
+            if (rooms.Count >= 2)
+                BakeLocalNavMeshBetweenLastTwo(150f);
         }
 
         private void UpdateRooms()
@@ -245,47 +231,49 @@ namespace RoomSystem
                     : DirectionType.South;
         }
 
-        private void BakeLocalNavMesh(Vector3 center)
+        private void BakeLocalNavMeshBetweenLastTwo(float size)
         {
-            if (navMeshSurface == null)
-            {
-                Debug.LogWarning("BakeLocalNavMesh отменён — отсутствует navMeshSurface");
-                return;
-            }
-            // ... остальной код без изменен
+            if (navMeshSurface == null || rooms.Count < 2) return;
 
-        // Определяем область запекания
-        var bounds = new Bounds(center, Vector3.one * bakeRadius * 2f);
+            Vector3 a = rooms[rooms.Count - 2].RoomContainer.transform.position;
+            Vector3 b = rooms[rooms.Count - 1].RoomContainer.transform.position;
+            Vector3 center = (a + b) * 0.25f;
 
-            // Собираем источники и разметки
+            // Bounds размером size×size×size
+            var bounds = new Bounds(center, Vector3.one * size);
+
+            // Сборка источников и разметок
             var sources = new List<NavMeshBuildSource>();
             var markups = new List<NavMeshBuildMarkup>();
             NavMeshBuilder.CollectSources(
                 bounds,
                 navMeshSurface.layerMask,
-                navMeshSurface.useGeometry == NavMeshCollectGeometry.RenderMeshes
-                    ? NavMeshCollectGeometry.RenderMeshes
-                    : NavMeshCollectGeometry.PhysicsColliders,
+                navMeshSurface.useGeometry,
                 navMeshSurface.defaultArea,
                 markups,
                 sources
             );
 
-            // Строим новые данные NavMesh для этой области
-            var buildSettings = navMeshSurface.GetBuildSettings();
+            // Построение данных NavMesh
             var data = NavMeshBuilder.BuildNavMeshData(
-                buildSettings,
+                navMeshSurface.GetBuildSettings(),
                 sources,
                 bounds,
                 center,
                 Quaternion.identity
             );
 
-            // Удаляем предыдущий инстанс (если он был)
+            if (data == null)
+            {
+                Debug.LogError("RoomGenerator: BuildNavMeshData returned null");
+                return;
+            }
+
+            // Удаляем старый NavMeshDataInstance
             if (navMeshDataInstance.valid)
                 navMeshDataInstance.Remove();
 
-            // Добавляем новую поверхность и сохраняем инстанс
+            // Добавляем новый и сохраняем инстанс
             navMeshDataInstance = NavMesh.AddNavMeshData(data);
             navMeshSurface.navMeshData = data;
         }
