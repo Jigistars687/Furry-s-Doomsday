@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using Unity.AI.Navigation;  // для NavMeshBuilder, NavMeshBuildSource, NavMeshBuildMarkup
 
 namespace RoomSystem
 {
@@ -49,8 +51,15 @@ namespace RoomSystem
         [Tooltip("Blueprint-точки для установки стен/дверей относительно центра комнаты")]
         public RoomPartPoint[] PartPoints;
 
+        [Header("NavMesh")]
+        [Tooltip("Ссылка на главный NavMeshSurface сцены")]
+        public NavMeshSurface navMeshSurface;
+        [Tooltip("Радиус локального запекания после спавна")]
+        public float bakeRadius = 50f;
+
         private const int RoomsBeforeTurn = 3;
         private int currentDirectionRoomCount;
+        private NavMeshDataInstance navMeshDataInstance;
 
         private void Awake()
         {
@@ -59,30 +68,40 @@ namespace RoomSystem
             currentDirectionRoomCount = 0;
         }
 
-        private void Start()
+        void Start()
         {
-            // Сразу спавним две комнаты:
-            // 1) первая без триггера
-            SpawnRoom(initial: true);
-            // 2) вторая с триггером для спавна третьей
+            // если не задано в инспекторе — найдём первый на сцене
+            if (navMeshSurface == null)
+            {
+                navMeshSurface = FindObjectOfType<NavMeshSurface>();
+                if (navMeshSurface == null)
+                    Debug.LogError("RoomGenerator: не найден ни один NavMeshSurface на сцене!");
+            }
+
+            // Теперь можно смело вызывать первый SpawnRoom
+            SpawnRoom(true);
             SpawnRoom();
         }
+
 
         private void SpawnRoom(bool initial = false)
         {
             roomCounter++;
 
+            // --- Логика расположения и генерации комнаты ---
             Vector3 spawnPos = SpawnPoints.position;
             DirectionType? forcedEntranceDir = null;
 
             if (rooms.Count > 0)
             {
-                Room previousRoom = rooms[rooms.Count - 1];
-                spawnPos = previousRoom.RoomContainer.transform.position - GetDirectionVector(currentSpawnDirection) * RoomSpacing;
+                var prevRoom = rooms[rooms.Count - 1];
+                spawnPos = prevRoom.RoomContainer.transform.position
+                         - GetDirectionVector(currentSpawnDirection) * RoomSpacing;
                 forcedEntranceDir = GetOppositeDirection(currentSpawnDirection);
             }
 
-            GameObject roomContainer = new GameObject($"Room_{roomCounter}");
+            // Создаём пустой контейнер для новой комнаты
+            var roomContainer = new GameObject($"Room_{roomCounter}");
             roomContainer.transform.position = spawnPos;
 
             var newRoom = new Room
@@ -95,6 +114,7 @@ namespace RoomSystem
 
             var doorParts = new List<RoomPartObject>();
 
+            // Инстанциируем части комнаты и добавляем двери/стены
             foreach (var partPoint in PartPoints)
             {
                 if (partPoint.Point == null) continue;
@@ -120,6 +140,8 @@ namespace RoomSystem
                     }
                 }
             }
+
+            // Если есть несколько вариантов выхода, оставляем только один
             if (doorParts.Count > 0)
             {
                 int idx = UnityEngine.Random.Range(0, doorParts.Count);
@@ -130,6 +152,7 @@ namespace RoomSystem
 
             rooms.Add(newRoom);
 
+            // Спавн триггера для следующей комнаты (если не initial)
             if (!initial && SpawnRoomTriggerPrefab != null)
             {
                 var triggerObj = Instantiate(SpawnRoomTriggerPrefab, roomContainer.transform);
@@ -157,12 +180,16 @@ namespace RoomSystem
                 newRoom.TriggerObject = triggerObj;
             }
 
+            // Обновляем направление и удаляем старые комнаты по необходимости
             currentSpawnDirection = nextSpawnDirection;
             nextSpawnDirection = (roomCounter % RoomsBeforeTurn == 0)
                 ? GetTurnDirection(currentSpawnDirection)
                 : currentSpawnDirection;
-
             UpdateRooms();
+            // --- Конец логики спавна ---
+
+            // Локальное запекание NavMesh вокруг центра новой комнаты
+            BakeLocalNavMesh(spawnPos);
         }
 
         private void UpdateRooms()
@@ -216,6 +243,51 @@ namespace RoomSystem
                 return (UnityEngine.Random.Range(0, 2) == 0)
                     ? DirectionType.North
                     : DirectionType.South;
+        }
+
+        private void BakeLocalNavMesh(Vector3 center)
+        {
+            if (navMeshSurface == null)
+            {
+                Debug.LogWarning("BakeLocalNavMesh отменён — отсутствует navMeshSurface");
+                return;
+            }
+            // ... остальной код без изменен
+
+        // Определяем область запекания
+        var bounds = new Bounds(center, Vector3.one * bakeRadius * 2f);
+
+            // Собираем источники и разметки
+            var sources = new List<NavMeshBuildSource>();
+            var markups = new List<NavMeshBuildMarkup>();
+            NavMeshBuilder.CollectSources(
+                bounds,
+                navMeshSurface.layerMask,
+                navMeshSurface.useGeometry == NavMeshCollectGeometry.RenderMeshes
+                    ? NavMeshCollectGeometry.RenderMeshes
+                    : NavMeshCollectGeometry.PhysicsColliders,
+                navMeshSurface.defaultArea,
+                markups,
+                sources
+            );
+
+            // Строим новые данные NavMesh для этой области
+            var buildSettings = navMeshSurface.GetBuildSettings();
+            var data = NavMeshBuilder.BuildNavMeshData(
+                buildSettings,
+                sources,
+                bounds,
+                center,
+                Quaternion.identity
+            );
+
+            // Удаляем предыдущий инстанс (если он был)
+            if (navMeshDataInstance.valid)
+                navMeshDataInstance.Remove();
+
+            // Добавляем новую поверхность и сохраняем инстанс
+            navMeshDataInstance = NavMesh.AddNavMeshData(data);
+            navMeshSurface.navMeshData = data;
         }
     }
 }

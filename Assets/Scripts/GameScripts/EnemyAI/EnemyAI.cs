@@ -1,60 +1,76 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Настройки")]
-    public Transform player;
-    public float moveSpeed = 5f;
-    public float viewDistance = 10f;
-    public float viewAngle = 45f;
+    [Header("Настройки преследования")]
+    public float maxFollowDistance = 50f;  // максимальная дистанция преследования
 
-    private Vector3 lastKnownPlayerPos;
-    private bool canSeePlayer;
+    private Transform player;              // найденная ссылка на игрока
+    private NavMeshAgent agent;
+
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+
+        // Настройки агента (можно подправить по вкусу)
+        agent.speed = 5f;
+        agent.angularSpeed = 120f;
+        agent.acceleration = 8f;
+        agent.stoppingDistance = 0.5f;
+    }
+    // EnemyAI.cs (фрагмент после спавна врага)
+    void OnEnable()
+    {
+        // Телепортируем агента на ближайшую точку NavMesh, чтобы избежать SetDestination-error
+        NavMeshHit hit;
+        if (agent != null && NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
+        {
+            agent.Warp(hit.position);
+        }
+    }
+
+    void Start()
+    {
+        // Один раз ищем в сцене объект с тегом "Player"
+        var playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("EnemyAI: не найден объект с тегом \"Player\"!");
+        }
+    }
 
     void Update()
     {
-        canSeePlayer = CheckPlayerInSight();
+        if (player == null) return;
 
-        if (canSeePlayer)
+        float dist = Vector3.Distance(transform.position, player.position);
+
+        if (dist <= maxFollowDistance)
         {
-            lastKnownPlayerPos = player.position;
-            MoveTowards(lastKnownPlayerPos);
+            // Агент сам проложит путь к игроку по NavMesh
+            agent.SetDestination(player.position);
         }
-        else if (lastKnownPlayerPos != Vector3.zero)
+        else if (agent.hasPath)
         {
-            MoveTowards(lastKnownPlayerPos);
+            // Если игрок слишком далеко — останавливаемся
+            agent.ResetPath();
         }
     }
 
-    private bool CheckPlayerInSight()
+    // Для отладки: показываем траекторию в редакторе
+    void OnDrawGizmosSelected()
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+        if (!Application.isPlaying || agent == null || !agent.hasPath) return;
 
-        if (distanceToPlayer <= viewDistance && angleToPlayer <= viewAngle / 2f)
-        {
-            if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer, out RaycastHit hit, viewDistance))
-            {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private void MoveTowards(Vector3 targetPosition)
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        transform.position += direction * moveSpeed * Time.deltaTime;
-
-        // Поворот в сторону цели
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * moveSpeed);
+        Gizmos.color = Color.green;
+        var path = agent.path;
+        for (int i = 0; i < path.corners.Length - 1; i++)
+            Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
     }
 }
