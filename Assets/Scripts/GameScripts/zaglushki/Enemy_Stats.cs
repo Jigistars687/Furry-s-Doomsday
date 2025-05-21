@@ -25,10 +25,13 @@ public class Enemy_Stats : MonoBehaviour
     public float Health
     {
         get { return _health; }
-        set { _health = value; }
+        set
+        {
+            _health = value;
+        }
     }
 
-    public void TakeDamage(float damage)
+            public void TakeDamage(float damage)
     {
         if (Health > 0)
         {

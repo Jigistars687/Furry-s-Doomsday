@@ -578,7 +578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 972658892}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pallet_spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -958,8 +958,32 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_Size.x
+      value: 1.3164654
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_Size.y
+      value: 2.0765686
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_Size.z
+      value: 1.1543579
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_Center.x
+      value: 0.010009289
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_Center.y
+      value: 0.5332866
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_Center.z
+      value: -0.35681725
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8515176711634582180, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
@@ -1098,7 +1122,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -1446,7 +1470,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1809077454}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.77
+  m_Radius: 0.43
   m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1455,8 +1479,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.07
-  m_BaseOffset: 0.26
+  m_Height: 1.02
+  m_BaseOffset: 0.55
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1809077457
@@ -1765,6 +1789,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3455515573540182802, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3515284375246371221, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
       propertyPath: _fpsText
       value: 
@@ -1788,6 +1816,18 @@ PrefabInstance:
     - target: {fileID: 4244300739672898700, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
       propertyPath: rotateSmoothness
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947891272467396742, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7487969185541764603, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7523281160013795632, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

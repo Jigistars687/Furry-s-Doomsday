@@ -9,29 +9,29 @@ public class ShotgunController : MonoBehaviour
 {
     [Header("Настройки дробовика")]
     [Tooltip("Префаб снаряда дробинки (сфера с Rigidbody)")]
-    public GameObject pelletPrefab;
+    [SerializeField] private GameObject pelletPrefab;
 
     [Tooltip("Точка появления дробинок (обычно Transform ствола)")]
-    public Transform barrelEnd;
+    [SerializeField] private Transform barrelEnd;
 
     [Tooltip("Количество дробинок за выстрел")]
-    public int pelletsPerShot = 6;
+    [SerializeField] private int pelletsPerShot = 6;
 
     [Tooltip("Угол разброса в градусах")]
-    public float spreadAngle = 10f;
+    [SerializeField] private float spreadAngle = 10f;
 
     [Tooltip("Сила вылета дробинки")]
-    public float pelletForce = 500f;
+    [SerializeField] private float pelletForce = 750f;
 
     [Header("Боезапас и КД")]
     [Tooltip("Максимальный боезапас дробовика")]
-    public int maxAmmo = 24;
+    [SerializeField] private int maxAmmo = 24;
 
     [Tooltip("Текущее количество боеприпасов")]
-    public int currentAmmo;
+    [SerializeField] private int currentAmmo;
 
     [Tooltip("Время между выстрелами (сек)")]
-    public float cooldownTime = 1f;
+    [SerializeField] private float cooldownTime = 1f;
 
     private float nextFireTime = 0f;
 
@@ -44,7 +44,7 @@ public class ShotgunController : MonoBehaviour
     void Update()
     {
         // Проверка нажатия кнопки "Fire1" (обычно левая кнопка мыши или Ctrl)
-        if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
+        if (Input.GetKey(BindingKeysManager.Attack_Key_KEYCODE) && Time.time >= nextFireTime)
         {
             if (currentAmmo > 0)
             {

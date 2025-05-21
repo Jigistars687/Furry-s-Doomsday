@@ -1,29 +1,32 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
     [Header("Настройки преследования")]
-    public float maxFollowDistance = 50f;  // максимальная дистанция преследования
+    public float maxFollowDistance = 50f;  
 
-    private Transform player;              // найденная ссылка на игрока
+    private Transform player;          
     private NavMeshAgent agent;
+
+    private Enemy_Stats _here_stats;
+    private Shotgun_stats Shotgun_damage;
+
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-
-        // Настройки агента (можно подправить по вкусу)
+        _here_stats = new Enemy_Stats();
         agent.speed = 5f;
         agent.angularSpeed = 120f;
         agent.acceleration = 8f;
         agent.stoppingDistance = 0.5f;
     }
-    // EnemyAI.cs (фрагмент после спавна врага)
     void OnEnable()
     {
-        // Телепортируем агента на ближайшую точку NavMesh, чтобы избежать SetDestination-error
         NavMeshHit hit;
         if (agent != null && NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
         {
@@ -33,7 +36,6 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        // Один раз ищем в сцене объект с тегом "Player"
         var playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
         {
@@ -53,17 +55,26 @@ public class EnemyAI : MonoBehaviour
 
         if (dist <= maxFollowDistance)
         {
-            // Агент сам проложит путь к игроку по NavMesh
             agent.SetDestination(player.position);
         }
         else if (agent.hasPath)
         {
-            // Если игрок слишком далеко — останавливаемся
             agent.ResetPath();
+        }
+
+        if(_here_stats.Health < 0)
+        {
+            enabled = false;
         }
     }
 
-    // Для отладки: показываем траекторию в редакторе
+    private void OnTriggerEnter(Collider Bullet)
+    {
+        if (Bullet.gameObject.TryGetComponent<Pellet>(out var _))
+        {
+            _here_stats.TakeDamage(Shotgun_damage.DamagePerPellet);
+        }
+    }
     void OnDrawGizmosSelected()
     {
         if (!Application.isPlaying || agent == null || !agent.hasPath) return;

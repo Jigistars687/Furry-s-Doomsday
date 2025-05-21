@@ -15,9 +15,13 @@ public class playercontrollerBETA : MonoBehaviour
     private Rigidbody rb;
     private Quaternion targetRotation;
     private float _finalTurnSpeed;
+    private Enemy_Stats _enemy;
+    private Player_stats _player;
 
     void Start()
     {
+        _enemy = new Enemy_Stats();
+        _player = new Player_stats();
         rb = GetComponent<Rigidbody>();
         targetRotation = transform.rotation;
     }
@@ -68,4 +72,13 @@ public class playercontrollerBETA : MonoBehaviour
         if (PlayerPrefs.GetInt(BooleanSettings.IsInversionX) == 1) InversionRotateAxisX();
         else NotInversionRotateAxisX();
     }
+
+    private void OnTriggerEnter(Collider enemy)
+    {
+        if (enemy.gameObject.TryGetComponent<EnemyAI>(out var _))
+        {
+            _player.TakeDamage(_enemy.DamagePerTick);
+        }
+    }
 }
+

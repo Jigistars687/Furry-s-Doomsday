@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5851107261472410041}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: WallWithDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3765680762859713086}
   - component: {fileID: 6773529190919204864}
   - component: {fileID: 8289675311942011931}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 6560625612329965027}
   - component: {fileID: 2339103453639149194}
   - component: {fileID: 1444468770419308830}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 3303686255527639650}
   - component: {fileID: 7348396224162085411}
   - component: {fileID: 6292999154308045377}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
