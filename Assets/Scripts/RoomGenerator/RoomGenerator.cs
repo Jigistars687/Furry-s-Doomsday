@@ -65,8 +65,8 @@ namespace RoomSystem
             if (navMeshSurface == null)
             {
                 navMeshSurface = FindObjectOfType<NavMeshSurface>();
-                if (navMeshSurface == null)
-                    Debug.LogError("RoomGenerator: не найден NavMeshSurface на сцене!");
+                //if (navMeshSurface == null)
+                    //Debug.LogError("RoomGenerator: не найден NavMeshSurface на сцене!");
             }
 
             SpawnRoom(initial: true);
@@ -265,7 +265,7 @@ namespace RoomSystem
 
             if (data == null)
             {
-                Debug.LogError("RoomGenerator: BuildNavMeshData returned null");
+                //Debug.LogError("RoomGenerator: BuildNavMeshData returned null");
                 return;
             }
 

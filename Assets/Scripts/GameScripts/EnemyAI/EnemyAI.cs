@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         _here_stats = new Enemy_Stats();
+        Shotgun_damage = new Shotgun_stats();
         agent.speed = 5f;
         agent.angularSpeed = 120f;
         agent.acceleration = 8f;
@@ -62,7 +63,7 @@ public class EnemyAI : MonoBehaviour
             agent.ResetPath();
         }
 
-        if(_here_stats.Health < 0)
+        if(_here_stats.Health <= 0)
         {
             enabled = false;
         }
@@ -72,6 +73,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (Bullet.gameObject.TryGetComponent<Pellet>(out var _))
         {
+            Debug.Log($"Enemy Hit by a pellet!\n{_here_stats.Health}");
             _here_stats.TakeDamage(Shotgun_damage.DamagePerPellet);
         }
     }

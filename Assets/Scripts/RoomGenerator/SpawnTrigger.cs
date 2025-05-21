@@ -17,9 +17,9 @@ namespace RoomSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"SpawnTrigger: OnTriggerEnter with {other.name}");
+            //Debug.Log($"SpawnTrigger: OnTriggerEnter with {other.name}");
             if (!other.CompareTag("Player")) return;
-            Debug.Log("SpawnTrigger: Player entered!");
+            //Debug.Log("SpawnTrigger: Player entered!");
             OnPlayerEnter?.Invoke();
             OnPlayerEnter = null;
         }

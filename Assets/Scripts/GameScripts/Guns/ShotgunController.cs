@@ -15,10 +15,10 @@ public class ShotgunController : MonoBehaviour
     [SerializeField] private Transform barrelEnd;
 
     [Tooltip("Количество дробинок за выстрел")]
-    [SerializeField] private int pelletsPerShot = 6;
+    [SerializeField] private int pelletsPerShot = 99;
 
     [Tooltip("Угол разброса в градусах")]
-    [SerializeField] private float spreadAngle = 10f;
+    [SerializeField] private float spreadAngle = 360f;
 
     [Tooltip("Сила вылета дробинки")]
     [SerializeField] private float pelletForce = 750f;
@@ -67,22 +67,18 @@ public class ShotgunController : MonoBehaviour
     {
         for (int i = 0; i < pelletsPerShot; i++)
         {
-            // Случайный угол разброса по горизонтали и вертикали
             float yaw = Random.Range(-spreadAngle, spreadAngle);
             float pitch = Random.Range(-spreadAngle, spreadAngle);
 
-            // Получаем направление с учётом разброса
             Quaternion randomRotation = Quaternion.Euler(pitch, yaw, 0);
             Vector3 shootDirection = randomRotation * barrelEnd.forward;
 
-            // Создаём дробинку
             GameObject pellet = Instantiate(pelletPrefab, barrelEnd.position, Quaternion.LookRotation(shootDirection));
 
-            // Придаём скорость через Rigidbody
             Rigidbody rb = pellet.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(shootDirection * pelletForce);
+                rb.AddForce(shootDirection * pelletForce, ForceMode.Impulse);
             }
         }
     }

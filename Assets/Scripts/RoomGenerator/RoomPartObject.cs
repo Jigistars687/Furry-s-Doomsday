@@ -23,12 +23,12 @@ namespace RoomSystem
                     obj.transform.SetParent(spawnPoint.Container);
                     obj.transform.localPosition = Vector3.zero;
                     obj.transform.localEulerAngles = Vector3.zero;
-                    Debug.Log($"{obj.name} assigned to {direction} at {spawnPoint.Container.position}");
+                    //Debug.Log($"{obj.name} assigned to {direction} at {spawnPoint.Container.position}");
                     return;
                 }
             }
 
-            Debug.LogWarning($"Не найден SpawnPoint для направления {direction} на {gameObject.name}");
+            //Debug.LogWarning($"Не найден SpawnPoint для направления {direction} на {gameObject.name}");
         }
     }
 }

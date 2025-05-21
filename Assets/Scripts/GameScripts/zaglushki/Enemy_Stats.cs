@@ -31,9 +31,17 @@ public class Enemy_Stats : MonoBehaviour
         }
     }
 
-            public void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
-        if (Health > 0)
+        if (Health - damage <= 0)
+        {
+            Health = 0;
+        }
+        if (Health <= 0)
+        {
+            Health = 0;
+        }
+        else
         {
             Health -= damage;
             HealthChanger?.Invoke();
