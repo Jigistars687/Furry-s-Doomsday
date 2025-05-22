@@ -219,10 +219,10 @@ MonoBehaviour:
   pelletPrefab: {fileID: 6316537043028833291, guid: 9c320446f26bf7c4191fa54e0cf9b875, type: 3}
   barrelEnd: {fileID: 6472120181677809457}
   pelletsPerShot: 10
-  spreadAngle: 1
+  spreadAngle: 10
   pelletForce: 1
   maxAmmo: 24
-  currentAmmo: 24
+  currentAmmo: 0
   cooldownTime: 0
 --- !u!95 &7128097389094338922
 Animator:
