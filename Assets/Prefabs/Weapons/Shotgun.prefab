@@ -192,6 +192,9 @@ MonoBehaviour:
   maxAmmo: 24
   currentAmmo: 0
   cooldownTime: 1.2
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 --- !u!95 &7128097389094338922
 Animator:

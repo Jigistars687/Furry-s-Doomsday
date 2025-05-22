@@ -129,7 +129,10 @@ Transform:
   m_PrefabInstance: {fileID: 4413778206029250181}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 --- !u!1 &344394480
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,6 +468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d4098e779b33649ba26d74eeb76c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 --- !u!1 &974217140
 GameObject:
@@ -1259,6 +1265,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 972658893}
   m_SourcePrefab: {fileID: 100100000, guid: 717b641c45afbbb4385135380a15aead, type: 3}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 --- !u!1001 &4413778206029250181
 PrefabInstance:
@@ -1318,12 +1327,18 @@ PrefabInstance:
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7181e1c8cdca0234d8f783c8f54006c2, type: 3}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 --- !u!4 &8965895764740816241 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6638327127732427666, guid: 717b641c45afbbb4385135380a15aead, type: 3}
   m_PrefabInstance: {fileID: 749825205259668635}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

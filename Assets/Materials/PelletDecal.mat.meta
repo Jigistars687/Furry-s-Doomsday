@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Materials/PelletDecal.mat.meta
 guid: edd2ed179c3055349be0a553ff4c9916
 NativeFormatImporter:
+========
+guid: b3da3ca69152fc44e88b693c923ec329
+PrefabImporter:
+>>>>>>>> Stashed changes:Assets/Prefabs/Decal.prefab.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 
