@@ -1,5 +1,6 @@
 fileFormatVersion: 2
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab.meta
 guid: fc4af37a13b220646b60beca70f669f8
 ========
@@ -17,6 +18,11 @@ PrefabImporter:
 >>>>>>>> Stashed changes:Assets/Prefabs/Decal.prefab.meta
   externalObjects: {}
   mainObjectFileID: 2100000
+>>>>>>> Stashed changes
+=======
+guid: b3da3ca69152fc44e88b693c923ec329
+PrefabImporter:
+  externalObjects: {}
 >>>>>>> Stashed changes
   userData: 
   assetBundleName: 

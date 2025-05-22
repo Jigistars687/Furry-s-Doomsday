@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:Assets/Materials/Pellet.mat.meta
 guid: 685800c7f45330148be8df33e32d63ed
 NativeFormatImporter:
@@ -6,6 +7,10 @@ NativeFormatImporter:
 guid: 717b641c45afbbb4385135380a15aead
 PrefabImporter:
 >>>>>>>> Stashed changes:Assets/Prefabs/enheter/Player 1.prefab.meta
+=======
+guid: 685800c7f45330148be8df33e32d63ed
+NativeFormatImporter:
+>>>>>>> Stashed changes
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 

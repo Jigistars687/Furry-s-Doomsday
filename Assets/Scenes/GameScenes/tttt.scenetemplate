@@ -27,9 +27,12 @@ MonoBehaviour:
     instantiationMode: 0
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   - dependency: {fileID: 7174231657762129746, guid: 7181e1c8cdca0234d8f783c8f54006c2, type: 3}
     instantiationMode: 0
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   - dependency: {fileID: 2100000, guid: 2ebbe765228db7548bb1a25ed9158f05, type: 2}
