@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: 52c105d6a23d919489610dbae38cf70a
+=======
+<<<<<<<< Updated upstream:Assets/Prefabs/enheter/Player.prefab.meta
+guid: e3b9f305681f70645831e1ef3c4659b5
+========
+guid: 717b641c45afbbb4385135380a15aead
+>>>>>>>> Stashed changes:Assets/Prefabs/enheter/Player 1.prefab.meta
+>>>>>>> Stashed changes
 PrefabImporter:
   externalObjects: {}
   userData: 

@@ -8,11 +8,20 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab
   - component: {fileID: 8033556655593480703}
   - component: {fileID: 6647880966040421080}
   - component: {fileID: 5329661125345296982}
   - component: {fileID: 702570731290011385}
   - component: {fileID: 7727583505547420546}
+=======
+  - component: {fileID: 5467248014167474282}
+  - component: {fileID: -1761402814201269614}
+  - component: {fileID: 3933889251302978971}
+  - component: {fileID: 5099251204853440406}
+  - component: {fileID: 2630205310804474925}
+  - component: {fileID: 5320005383909988755}
+>>>>>>> Stashed changes:Assets/Prefabs/Weapons/drobinka.prefab
   m_Layer: 0
   m_Name: ENEMY_TEST
   m_TagString: Untagged
@@ -29,14 +38,38 @@ Transform:
   m_GameObject: {fileID: 9221684292533305725}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab
   m_LocalPosition: {x: 558.874, y: 165.69, z: -555.823}
   m_LocalScale: {x: 1.4936, y: 1.311, z: 1}
+=======
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+>>>>>>> Stashed changes:Assets/Prefabs/Weapons/drobinka.prefab
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab
 --- !u!114 &6647880966040421080
 MonoBehaviour:
+=======
+--- !u!114 &-1761402814201269614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316537043028833291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bfb32fa68e8fe34fb251c447ad126e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decalPrefab: {fileID: 1310519389764641455, guid: b3da3ca69152fc44e88b693c923ec329, type: 3}
+  decalScale: {x: 0.02, y: 0.02, z: 0.02}
+--- !u!33 &3933889251302978971
+MeshFilter:
+>>>>>>> Stashed changes:Assets/Prefabs/Weapons/drobinka.prefab
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -69,7 +102,11 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+=======
+  - {fileID: 2100000, guid: 685800c7f45330148be8df33e32d63ed, type: 2}
+>>>>>>> Stashed changes:Assets/Prefabs/Weapons/drobinka.prefab
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,14 +157,22 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
+<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab
   m_Size: {x: 1.6580346, y: 1.6815621, z: 0.041809082}
   m_Center: {x: 0.08046212, y: 0.014990727, z: -0.00033569336}
 --- !u!195 &7727583505547420546
 NavMeshAgent:
+=======
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &5320005383909988755
+Rigidbody:
+>>>>>>> Stashed changes:Assets/Prefabs/Weapons/drobinka.prefab
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream:Assets/Prefabs/enheter/ENEMY_TEST.prefab
   m_GameObject: {fileID: 9221684292533305725}
   m_Enabled: 1
   m_AgentTypeID: 0
@@ -144,3 +189,26 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+=======
+  m_GameObject: {fileID: 6316537043028833291}
+  serializedVersion: 4
+  m_Mass: 0.2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+>>>>>>> Stashed changes:Assets/Prefabs/Weapons/drobinka.prefab

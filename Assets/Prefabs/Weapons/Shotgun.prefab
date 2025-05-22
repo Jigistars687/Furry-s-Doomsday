@@ -171,6 +171,28 @@ Transform:
   - {fileID: 8855399461522124350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
+=======
+--- !u!114 &5193776924949282218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712203469994598513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dceb29bd72d5214f85ed47de28b084b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pelletPrefab: {fileID: 6316537043028833291, guid: 9c320446f26bf7c4191fa54e0cf9b875, type: 3}
+  pelletsPerShot: 8
+  spreadAngle: 10
+  pelletForce: 750
+  maxAmmo: 24
+  currentAmmo: 0
+  cooldownTime: 1.2
+>>>>>>> Stashed changes
 --- !u!95 &7128097389094338922
 Animator:
   serializedVersion: 5
