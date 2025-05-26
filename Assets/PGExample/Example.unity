@@ -578,6 +578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 972658892}
+  - component: {fileID: 972658893}
   m_Layer: 3
   m_Name: pallet_spawn
   m_TagString: Untagged
@@ -594,12 +595,24 @@ Transform:
   m_GameObject: {fileID: 972658891}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.387, y: 0.294, z: 1.731}
+  m_LocalPosition: {x: -1.039, y: 0.916, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 158184731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &972658893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972658891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c0af4211ce5133478b2c86f8d2bf969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &974217140
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,11 +880,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1502532695810467651, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502532695810467651, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2924363157175485738, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Name
       value: Enemy 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244781914675225423, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.091
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385392681242489788, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
+      propertyPath: _damagePerTick
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6165026542256699490, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_LocalScale.x
@@ -959,11 +984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Size.x
-      value: 1.3164654
+      value: 1.3909154
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Size.y
-      value: 4.286521
+      value: 2.3769462
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Size.z
@@ -971,15 +996,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Center.x
-      value: 0.010009289
+      value: -0.037225008
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Center.y
-      value: 1.6382627
+      value: 0.73229325
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_Center.z
-      value: -0.35681725
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8782116995324040419, guid: cdd970c1649de954c9601ef83dbb8a4e, type: 3}
       propertyPath: m_IsTrigger
