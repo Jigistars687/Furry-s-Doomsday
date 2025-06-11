@@ -77,7 +77,6 @@ namespace RoomSystem
         {
             roomCounter++;
 
-            // ------ Ваша логика спавна комнаты ------
             Vector3 spawnPos = SpawnPoints.position;
             DirectionType? forcedEntranceDir = null;
 
@@ -100,7 +99,10 @@ namespace RoomSystem
                 TriggerObject = null
             };
 
-            var doorParts = new List<RoomPartObject>();
+            // --- Исправление: заранее определяем, где будет дверь ---
+            DirectionType? doorDirection = null;
+            List<RoomPartObject> doorCandidates = new List<RoomPartObject>();
+            List<Tuple<RoomPartObject, DirectionType>> possibleDoors = new List<Tuple<RoomPartObject, DirectionType>>();
 
             foreach (var partPoint in PartPoints)
             {
@@ -116,9 +118,36 @@ namespace RoomSystem
 
                     if (outDir == nextSpawnDirection)
                     {
+                        possibleDoors.Add(Tuple.Create(roomPart, outDir));
+                    }
+                }
+            }
+
+            // Выбираем только одну дверь
+            Tuple<RoomPartObject, DirectionType> selectedDoor = null;
+            if (possibleDoors.Count > 0)
+            {
+                int idx = UnityEngine.Random.Range(0, possibleDoors.Count);
+                selectedDoor = possibleDoors[idx];
+            }
+
+            // Теперь расставляем стены и одну дверь
+            int partIdx = 0;
+            foreach (var partPoint in PartPoints)
+            {
+                if (partPoint.Point == null) continue;
+                var roomPart = newRoom.RoomParts[partIdx];
+                partIdx++;
+
+                foreach (var outDir in partPoint.OutsideDirections)
+                {
+                    if (forcedEntranceDir.HasValue && outDir == forcedEntranceDir.Value)
+                        continue;
+
+                    if (selectedDoor != null && roomPart == selectedDoor.Item1 && outDir == selectedDoor.Item2)
+                    {
                         var doorObj = Instantiate(DoorPrefab);
                         roomPart.AssignWall(doorObj, outDir);
-                        doorParts.Add(roomPart);
                     }
                     else
                     {
@@ -126,14 +155,6 @@ namespace RoomSystem
                         roomPart.AssignWall(wallObj, outDir);
                     }
                 }
-            }
-
-            if (doorParts.Count > 0)
-            {
-                int idx = UnityEngine.Random.Range(0, doorParts.Count);
-                var sel = doorParts[idx];
-                var replWall = Instantiate(WallPrefab);
-                sel.AssignWall(replWall, nextSpawnDirection);
             }
 
             rooms.Add(newRoom);
@@ -171,9 +192,7 @@ namespace RoomSystem
                 : currentSpawnDirection;
 
             UpdateRooms();
-            // ------ Конец логики спавна ------
 
-            // Перезапекаем локальный NavMesh между двух последних комнат, область 150×150×150
             if (rooms.Count >= 2)
                 BakeLocalNavMeshBetweenLastTwo(150f);
         }

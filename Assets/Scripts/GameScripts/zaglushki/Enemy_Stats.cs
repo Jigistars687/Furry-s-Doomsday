@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy_Stats : MonoBehaviour
 {
     [SerializeField] private float _maxHealth = 60;
-     [SerializeField] private float _damagePerTick = 1;
+    [SerializeField] private float _damagePerTick = 1;
     public float DamagePerTick => _damagePerTick;
     private float _health;
 

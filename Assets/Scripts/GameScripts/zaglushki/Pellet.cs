@@ -13,20 +13,21 @@ public class Pellet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
- //       if (!collision.gameObject.TryGetComponent<Pellet>(out var _))
- //       {
-//            Destroy(gameObject, 0.3f);
-//        }
-        if (collision.gameObject.TryGetComponent<EnemyAI>(out var enemyAI))
+        if (!collision.gameObject.TryGetComponent<Pellet>(out var _))
         {
-            Debug.Log($"Enemy Hit by a pellet!\n{_here_stats.Health}");
-            _here_stats.TakeDamage(Shotgun_damage.DamagePerPellet);
-            if (_here_stats.Health <= 0)
+            if (collision.gameObject.TryGetComponent<EnemyAI>(out var enemyAI))
             {
-                enemyAI.gameObject.SetActive(false);
+                Debug.Log($"Enemy Hit by a pellet!\n{_here_stats.Health}");
+                _here_stats.TakeDamage(Shotgun_damage.DamagePerPellet);
+                if (_here_stats.Health <= 0)
+                {
+                    enemyAI.gameObject.SetActive(false);
+                }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
+            Destroy(gameObject, 0.3f);
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
