@@ -7,6 +7,10 @@ public class DoorController : MonoBehaviour
     private float openHeight = 8f;         // Насколько поднимать дверь
     private float moveSpeed = 3f;          // Скорость движения двери
     private bool isOpen = false;           // Состояние двери
+    [SerializeField] AudioSource doorOpenSound; // Звук открытия двери
+    [SerializeField] AudioSource doorCloseSound; // Звук закрытия двери
+    [SerializeField] AudioClip _doorOpenSound; // Звук открытия двери
+    [SerializeField] AudioClip _doorCloseSound; // Звук закрытия двери
 
     private Vector3 closedPosition;
     private Vector3 openedPosition;
@@ -16,7 +20,7 @@ public class DoorController : MonoBehaviour
     public void OpenDoor()
     {
         if (isOpen) return;
-
+        doorOpenSound.PlayOneShot(_doorOpenSound);
         // запоминаем текущую позицию как точку старта
         Vector3 from = transform.position;
         // цель — подняться на openHeight вверх
@@ -24,13 +28,13 @@ public class DoorController : MonoBehaviour
 
         // прерываем предыдущую анимацию, если есть
         if (currentRoutine != null) StopCoroutine(currentRoutine);
-        currentRoutine = StartCoroutine(MoveDoor(from, to, 2f));
+        currentRoutine = StartCoroutine(MoveDoor(from, to, 1.6f));
     }
 
     public void CloseDoor()
     {
         if (!isOpen) return;
-
+        doorCloseSound.PlayOneShot(_doorCloseSound);
         // запоминаем текущую позицию как точку старта
         Vector3 from = transform.position;
         // цель — опуститься на 2 * openHeight вниз (как в вашем исходнике)
