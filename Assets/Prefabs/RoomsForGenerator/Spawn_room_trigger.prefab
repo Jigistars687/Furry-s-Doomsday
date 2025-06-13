@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6404731593302987411}
   - component: {fileID: 7798146996071159604}
   - component: {fileID: 8149818540043515315}
+  - component: {fileID: 1993952341605227531}
   m_Layer: 0
   m_Name: Spawn_room_trigger
   m_TagString: Untagged
@@ -64,5 +65,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9e1dcc49971d5042a2a4ba29ed92e31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1993952341605227531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447245743596750118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a06b82fff898e44b01601696a086ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
