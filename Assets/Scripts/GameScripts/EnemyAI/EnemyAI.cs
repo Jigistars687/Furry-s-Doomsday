@@ -69,14 +69,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider Bullet)
-    {
-        if (Bullet.gameObject.TryGetComponent<Pellet>(out var _))
-        {
-            Debug.Log($"Enemy Hit by a pellet!\n{_here_stats.Health}");
-            _here_stats.TakeDamage(Shotgun_damage.DamagePerPellet);
-        }
-    }
     void OnDrawGizmosSelected()
     {
         if (!Application.isPlaying || agent == null || !agent.hasPath) return;

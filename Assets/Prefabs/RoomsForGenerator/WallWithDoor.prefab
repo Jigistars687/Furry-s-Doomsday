@@ -713,14 +713,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5958876976560131083, guid: 08507e9f2d8a1c74eb60a6cb7b7b64ed, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 7729766227080582174}
+    - targetCorrespondingSourceObject: {fileID: 5958876976560131083, guid: 08507e9f2d8a1c74eb60a6cb7b7b64ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3000839889705580496}
     - targetCorrespondingSourceObject: {fileID: 5958876976560131083, guid: 08507e9f2d8a1c74eb60a6cb7b7b64ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1155857117454054366}
-    - targetCorrespondingSourceObject: {fileID: 5958876976560131083, guid: 08507e9f2d8a1c74eb60a6cb7b7b64ed, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 313569770769330952}
   m_SourcePrefab: {fileID: 100100000, guid: 08507e9f2d8a1c74eb60a6cb7b7b64ed, type: 3}
 --- !u!4 &8139260606810109489 stripped
 Transform:
@@ -732,6 +732,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5958876976560131083, guid: 08507e9f2d8a1c74eb60a6cb7b7b64ed, type: 3}
   m_PrefabInstance: {fileID: 2958171990152814720}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7729766227080582174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8917029171206515851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a06b82fff898e44b01601696a086ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorOpenSound: {fileID: 6161182547430515157}
+  doorCloseSound: {fileID: 3615000356735645979}
+  _doorOpenSound: {fileID: 8300000, guid: 988fb8cdbe2af814b8cb78e4bb05be6e, type: 3}
+  _doorCloseSound: {fileID: 8300000, guid: 05cb3382998371c4aa3b95d45173f2dc, type: 3}
 --- !u!65 &3000839889705580496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -775,19 +791,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5640182405718510850, guid: aa0f35343914d5941bb9684f02699a46, type: 3}
---- !u!114 &313569770769330952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8917029171206515851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a06b82fff898e44b01601696a086ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorOpenSound: {fileID: 0}
-  doorCloseSound: {fileID: 0}
-  _doorOpenSound: {fileID: 0}
-  _doorCloseSound: {fileID: 0}

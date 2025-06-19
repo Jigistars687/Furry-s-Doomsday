@@ -42,7 +42,7 @@ public class ShotgunController : MonoBehaviour
             }
             else
             {
-                Debug.LogError("PelletSpawn не найден на сцене. Убедитесь, что он присутствует.");
+                //Debug.LogError("PelletSpawn не найден на сцене. Убедитесь, что он присутствует.");
             }
         }
     }
@@ -56,12 +56,12 @@ public class ShotgunController : MonoBehaviour
             {
                 FireShotgun();
                 currentAmmo--;
-                Debug.Log($"Осталось патронов: {currentAmmo}");
+                //Debug.Log($"Осталось патронов: {currentAmmo}");
                 nextFireTime = Time.time + cooldownTime;
             }
             else
             {
-                Debug.Log("Нет боеприпасов! Пора перезарядиться.");
+                //Debug.Log("Нет боеприпасов! Пора перезарядиться.");
             }
         }
     }
