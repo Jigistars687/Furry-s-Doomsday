@@ -16,18 +16,23 @@ public class DoorController : MonoBehaviour
     private Vector3 openedPosition;
     private Coroutine moveCoroutine;
     private Coroutine currentRoutine;
+    private int dooooooorrr = 0;
 
     public void OpenDoor()
     {
         if (isOpen) return;
-        doorOpenSound.PlayOneShot(_doorOpenSound);
+        
         // запоминаем текущую позицию как точку старта
         Vector3 from = transform.position;
         // цель Ч подн€тьс€ на openHeight вверх
         Vector3 to = from + Vector3.up * openHeight;
 
         // прерываем предыдущую анимацию, если есть
-        if (currentRoutine != null) StopCoroutine(currentRoutine);
+        if (currentRoutine != null)
+        {
+            StopCoroutine(currentRoutine);
+            dooooooorrr = 0;
+        }
         currentRoutine = StartCoroutine(MoveDoor(from, to, 1.6f));
     }
 
@@ -40,7 +45,7 @@ public class DoorController : MonoBehaviour
         // цель Ч опуститьс€ на 2 * openHeight вниз (как в вашем исходнике)
         Vector3 to = from - new Vector3(0, openHeight, 0);
 
-        if (currentRoutine != null) StopCoroutine(currentRoutine);
+        //if (currentRoutine != null) StopCoroutine(currentRoutine);
         currentRoutine = StartCoroutine(MoveDoor(from, to, 0.35f));
     }
 
@@ -74,9 +79,11 @@ public class DoorController : MonoBehaviour
         if (other.gameObject.TryGetComponent<playercontrollerBETA>(out var player))
         {
             // ≈сли игрок входит в триггер, открываем дверь
-            if (!isOpen)
+            if (!isOpen & dooooooorrr == 0)
             {
                 OpenDoor();
+                doorOpenSound.PlayOneShot(_doorOpenSound);
+                dooooooorrr = 1;
             }
         }
     }

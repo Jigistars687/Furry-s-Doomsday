@@ -334,7 +334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8353597978085104464, guid: 2da16daca5c3acd489d1194206358164, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2182,7 +2182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4947891272467396742, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7330048379424500883, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
       propertyPath: weaponPrefabs.Array.data[0]
