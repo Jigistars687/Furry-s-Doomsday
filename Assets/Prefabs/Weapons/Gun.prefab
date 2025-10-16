@@ -146,6 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6093333359649573637}
   - component: {fileID: 2440621379459280604}
+  - component: {fileID: 3082378235711547939}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -191,3 +192,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3082378235711547939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227668779775339733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b26b50ea690cd4a9947d5d071fddf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6316537043028833291, guid: beee83ed2e4cd684896aac44ddd1b798, type: 3}
+  bulletsPerShot: 1
+  bulletForce: 750
+  maxAmmo: 17
+  currentAmmo: 0
+  cooldownTime: 0.25
+  aimSpread: 0.16
+  idleSpread: 0.5
+  moveSpread: 1.5
+  airSpread: 3
+  recoilAmount: 25
+  recoilRecoverySpeed: 50
+  isAiming: 0
+  isMoving: 0
+  isInAir: 0

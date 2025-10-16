@@ -1697,6 +1697,7 @@ GameObject:
   - component: {fileID: 1808048363}
   - component: {fileID: 1808048362}
   - component: {fileID: 1808048361}
+  - component: {fileID: 1808048364}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1754,6 +1755,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1808048364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808048360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a759d87c0b5eb48a4e9cd041ee3214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMotionScale: 0.2
 --- !u!1 &1911244654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,7 +2201,7 @@ PrefabInstance:
     - target: {fileID: 7330048379424500883, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
       propertyPath: weaponPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 4573391619925504739, guid: c305ce1d1a4ad514999a7c11f164051a, type: 3}
+      objectReference: {fileID: 6227668779775339733, guid: ac24b6fe913e7bf42b3014735275a5f4, type: 3}
     - target: {fileID: 7487969185541764603, guid: b871eff76810fdf47bd6301339a4ae08, type: 3}
       propertyPath: m_Layer
       value: 3

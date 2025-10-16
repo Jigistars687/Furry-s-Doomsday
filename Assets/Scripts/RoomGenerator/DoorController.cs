@@ -16,7 +16,7 @@ public class DoorController : MonoBehaviour
     private Vector3 openedPosition;
     private Coroutine moveCoroutine;
     private Coroutine currentRoutine;
-    private int dooooooorrr = 0;
+    private int _door_counter = 0;
 
     public void OpenDoor()
     {
@@ -31,7 +31,7 @@ public class DoorController : MonoBehaviour
         if (currentRoutine != null)
         {
             StopCoroutine(currentRoutine);
-            dooooooorrr = 0;
+            _door_counter = 0;
         }
         currentRoutine = StartCoroutine(MoveDoor(from, to, 1.6f));
     }
@@ -79,11 +79,11 @@ public class DoorController : MonoBehaviour
         if (other.gameObject.TryGetComponent<playercontrollerBETA>(out var player))
         {
             // Если игрок входит в триггер, открываем дверь
-            if (!isOpen & dooooooorrr == 0)
+            if (!isOpen & _door_counter == 0)
             {
                 OpenDoor();
                 doorOpenSound.PlayOneShot(_doorOpenSound);
-                dooooooorrr = 1;
+                _door_counter = 1;
             }
         }
     }
